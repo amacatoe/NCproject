@@ -2,12 +2,14 @@ package server;
 
 import client.ClientChatInterface;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerChat extends UnicastRemoteObject implements ServerChatInterface {
+public class ServerChat extends UnicastRemoteObject implements ServerChatInterface, Serializable {
+    //для Serializable (ук. версии сериал. данных)
     private static final long serialVersionUID;
 
     static {
@@ -25,7 +27,7 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
         this.chatClients.add(clientChatInterface);
     }
 
-    //отлавливает сообщения, показывает юзерам
+    //отлавливает сообщения, передаем юзерам
     public synchronized void broadcastMessage(String message) throws RemoteException {
         int i = 0;
 
