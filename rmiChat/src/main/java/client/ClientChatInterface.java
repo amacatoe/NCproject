@@ -1,4 +1,8 @@
 package client;
 
-public interface ClientChatInterface {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface ClientChatInterface extends Remote {
+    void getMessage(String message) throws RemoteException;
 }
