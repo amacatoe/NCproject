@@ -2,7 +2,6 @@ package client;
 
 
 import server.ServerChatInterface;
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,6 +9,7 @@ import java.util.Scanner;
 
 public class ClientChat extends UnicastRemoteObject implements ClientChatInterface, Runnable, Serializable {
     //для Serializable (ук. версии сериал. данных)
+    //Нужно ли?
     private static final long serialVersionUID;
     static {
         serialVersionUID = 1L;
@@ -22,9 +22,6 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         setUsername(username);
         //подумать про опасности(геттер/сеттер)
         this.serverChatInterface = serverChatInterface;
-
-        //добавляем на сервер новоиспеченный клиент
-        serverChatInterface.registerCC(this);
     }
 
     //отображаем сообщения на клиенте
@@ -52,7 +49,7 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
     }
 
     public void setUsername(String username) {
-        //придумать проверку
+        //придумать проверку, хотя думаю не нужна
         this.username = username;
     }
 }

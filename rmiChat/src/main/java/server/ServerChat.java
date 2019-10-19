@@ -1,7 +1,6 @@
 package server;
 
 import client.ClientChatInterface;
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,6 +9,7 @@ import java.util.List;
 
 public class ServerChat extends UnicastRemoteObject implements ServerChatInterface, Serializable {
     //для Serializable (ук. версии сериал. данных)
+    //Нужно ли?
     private static final long serialVersionUID;
 
     static {
@@ -19,11 +19,11 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
     private List<ClientChatInterface> chatClients;
 
     protected ServerChat() throws RemoteException {
-        chatClients = new ArrayList<ClientChatInterface>();
+        chatClients = new ArrayList<>();
     }
 
     //добавляет юзеров чатика
-    public synchronized void registerCC(ClientChatInterface clientChatInterface) throws RemoteException {
+    public synchronized void register(ClientChatInterface clientChatInterface) throws RemoteException {
         this.chatClients.add(clientChatInterface);
     }
 
