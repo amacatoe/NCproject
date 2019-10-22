@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class ClientChat extends UnicastRemoteObject implements ClientChatInterface, Runnable, Serializable {
+public class ClientChat extends UnicastRemoteObject implements ClientChatInterface, Runnable, Serializable, Chatable{
     //для Serializable (ук. версии сериал. данных)
     //Нужно ли?
     private static final long serialVersionUID;
@@ -44,12 +44,13 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         }
     }
 
-    public String getUsername() {
-        return new String(username);
-    }
-
     public void setUsername(String username) {
         //придумать проверку, хотя думаю не нужна
         this.username = username;
+    }
+
+    @Override
+    public String getName() {
+        return username;
     }
 }
