@@ -1,6 +1,6 @@
 package server;
 
-import client.ClientChatInterface;
+import client.ClientChatDecorator;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -9,33 +9,32 @@ import java.util.List;
 
 public class ServerChat extends UnicastRemoteObject implements ServerChatInterface, Serializable {
     //для Serializable (ук. версии сериал. данных)
-    //Нужно ли?
     private static final long serialVersionUID;
 
     static {
         serialVersionUID = 1L;
     }
-
-    private List<ClientChatInterface> chatClients;
+    private List<ClientChatDecorator> chatClients;
 
     protected ServerChat() throws RemoteException {
         chatClients = new ArrayList<>();
     }
 
     //добавляет юзеров чатика
-    public synchronized void register(ClientChatInterface clientChatInterface) throws RemoteException {
-
-        //сообразить с обертками
-        //System.out.println(clientChatInterface.getName() + " присоединился к чату");
-        this.chatClients.add(clientChatInterface);
+    public synchronized void register(ClientChatDecorator clientChat) throws RemoteException {
+        System.out.println(clientChat.getUsername() + " присоединился к чату");
+        this.chatClients.add(clientChat);
     }
 
     //отлавливает сообщения, передаем юзерам
     public synchronized void broadcastMessage(String message) throws RemoteException {
-        int i = 0;
-
-        while(i<chatClients.size()) {
-            chatClients.get(i++).getMessage(message);
+        for(ClientChatDecorator c : chatClients) {
+            c.getMessage(message);
         }
+
+//        int i = 0;
+//        while(i<chatClients.size()) {
+//            chatClients.get(i++).getMessage(message);
+//        }
     }
 }

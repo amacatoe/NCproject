@@ -22,7 +22,7 @@ public class ClientChatDriver {
         try {
             final Registry registry = LocateRegistry.getRegistry(null, 12345);
             final ServerChatInterface server = (ServerChatInterface) registry.lookup(UNIQUE_BINDING_NAME);
-            final ClientChat client = new ClientChat(username, server);
+            final ClientChatDecorator client = new ClientChatDecorator(new ClientChat(username, server));
 
             server.register(client);
         } catch (Exception e) {
