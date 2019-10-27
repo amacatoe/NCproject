@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Scanner;
 
 //подключает клиента к серверу
 public class ClientChatDriver {
@@ -23,8 +24,17 @@ public class ClientChatDriver {
             final ClientChatInterface client = new ClientChat(username, server);
 
             server.register(client);
+
+            Scanner scanner = new Scanner(System.in);
+            String message = "";
+
+            while(true){
+                message = scanner.nextLine().trim();
+                message = client.getUsername() + ": " + message;
+                server.broadcastMessage(message);
+            }
         } catch (Exception e) {
-            System.out.println ("Ошибка на клиенте: " + e);
+            System.out.println ("Ошибка на клиенте: " + e.toString());
             System.exit (1);
         }
 

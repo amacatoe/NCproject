@@ -1,7 +1,6 @@
 package server;
 
 import client.ClientChatInterface;
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,23 +22,15 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
 
     //добавляет юзеров чатика
     public synchronized void register(ClientChatInterface clientChat) throws RemoteException {
+        this.chatClients.add(clientChat);
         System.out.println(clientChat.getUsername() + " присоединился к чату");
         broadcastMessage(clientChat.getUsername() + " присоединился к чату");
-        this.chatClients.add(clientChat);
     }
 
     //отлавливает сообщения, передаем юзерам
     public synchronized void broadcastMessage(String message) throws RemoteException {
-//        for(ClientChatInterface c : chatClients) {
-//            c.getMessage(message);
-//        }
-
-        System.out.println(message);
-
-        int i = 0;
-        while(i<chatClients.size()) {
-            chatClients.get(i).getMessage(message);
-            i++;
+        for(ClientChatInterface c : chatClients) {
+            c.send(message);
         }
     }
 }

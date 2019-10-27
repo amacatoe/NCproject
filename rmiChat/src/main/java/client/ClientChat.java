@@ -4,7 +4,6 @@ import server.ServerChatInterface;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 
 public class ClientChat extends UnicastRemoteObject implements ClientChatInterface, Serializable {
     //для Serializable (ук. версии сериал. данных)
@@ -18,21 +17,20 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
 
     protected ClientChat(String username, ServerChatInterface serverChatInterface) throws RemoteException {
         setUsername(username);
-        //проверка на null
         this.serverChatInterface = serverChatInterface;
     }
 
     //отображаем сообщения на клиенте
-    public void getMessage(String message) throws RemoteException {
+    @Override
+    public synchronized void send(String message) throws RemoteException {
         System.out.println(message);
     }
 
-    public void setUsername(String username) {
-        //проверка на пустоту (пробел)
-        this.username = username;
+    public void setUsername(String username) throws RemoteException {
+        this.username = !username.equals("") ? username : "Гость";
     }
 
-    public String getUsername() {
+    public synchronized String getUsername() {
         return username;
     }
 }
