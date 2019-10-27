@@ -7,9 +7,7 @@ import java.rmi.registry.Registry;
 //Создает сервер
 public class ServerChatDriver {
     //ОТ 27.10
-    //посмотреть массивы для rmi в замену методам
-    //возможность отправлять приватные сообщения
-
+    //посмотреть массивы для rmi в замену методам, возможность отправлять приватные сообщения
 
     //уникальное имя удаленного объекта
     public static final String UNIQUE_BINDING_NAME = "server.chat_rmi";

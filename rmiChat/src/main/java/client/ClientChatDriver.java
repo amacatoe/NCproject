@@ -22,7 +22,6 @@ public class ClientChatDriver {
             final Registry registry = LocateRegistry.getRegistry(null, 12345);
             final ServerChatInterface server = (ServerChatInterface) registry.lookup(UNIQUE_BINDING_NAME);
             final ClientChatInterface client = new ClientChat(username, server);
-
             server.register(client);
 
             Scanner scanner = new Scanner(System.in);

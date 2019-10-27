@@ -20,7 +20,7 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
         chatClients = new ArrayList<>();
     }
 
-    //добавляет юзеров чатика
+    //добавляет юзеров чата
     public synchronized void register(ClientChatInterface clientChat) throws RemoteException {
         this.chatClients.add(clientChat);
         System.out.println(clientChat.getUsername() + " присоединился к чату");

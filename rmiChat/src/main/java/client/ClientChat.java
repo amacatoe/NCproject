@@ -30,6 +30,7 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         this.username = !username.equals("") ? username : "Гость";
     }
 
+    //выдает имя клиента
     public synchronized String getUsername() {
         return username;
     }
