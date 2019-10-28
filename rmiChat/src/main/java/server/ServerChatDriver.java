@@ -4,25 +4,21 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-//Создает сервер
+//create the server
 public class ServerChatDriver {
-    //ОТ 27.10
-    //посмотреть массивы для rmi в замену методам, возможность отправлять приватные сообщения
+    // TODO: 28.10.2019 - check rmi arrays
 
-    //уникальное имя удаленного объекта
     public static final String UNIQUE_BINDING_NAME = "server.chat_rmi";
 
     public static void main(String[] args) throws RemoteException {
         final ServerChat server = new ServerChat();
         try {
-            //реестр удаленных объектов
             final Registry registry = LocateRegistry.createRegistry(12345);
-            //регаем заглушку, клиент может найти в реестре удаленных объектов
             registry.bind(UNIQUE_BINDING_NAME, server);
-            System.out.println("Сервер " + UNIQUE_BINDING_NAME + " был запущен...");
+            System.out.println("Server " + UNIQUE_BINDING_NAME + " was started...");
 
         } catch (Exception e) {
-            System.out.println ("Ошибка на сервере: " + e.getMessage());
+            System.out.println ("Error on the server: " + e.getMessage());
             System.exit (1);
         }
     }

@@ -9,13 +9,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
-//подключает клиента к серверу
+//connect the client to the server
 public class ClientChatDriver {
     public static final String UNIQUE_BINDING_NAME = "server.chat_rmi";
 
     public static void main(String[] args) throws IOException, RemoteException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Введите Ваше имя: ");
+        System.out.print("Enter your name: ");
         String username = br.readLine().trim();
 
         try {
@@ -23,17 +23,24 @@ public class ClientChatDriver {
             final ServerChatInterface server = (ServerChatInterface) registry.lookup(UNIQUE_BINDING_NAME);
             final ClientChatInterface client = new ClientChat(username, server);
             server.register(client);
+            server.sendPrivateMessage("Server", client.getUsername(), "You can send private message, please enter the phrase 'private'");
 
             Scanner scanner = new Scanner(System.in);
             String message = "";
 
             while(true){
                 message = scanner.nextLine().trim();
+
+                //catch private message in console
+                if (message.equalsIgnoreCase("private")) {
+                    client.sendPrivateMessageToServer();
+                    continue;
+                }
                 message = client.getUsername() + ": " + message;
                 server.broadcastMessage(message);
             }
         } catch (Exception e) {
-            System.out.println ("Ошибка на клиенте: " + e.toString());
+            System.out.println ("Error on the client app: " + e.toString());
             System.exit (1);
         }
 
