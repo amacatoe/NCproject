@@ -24,19 +24,15 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
         broadcastMessage(clientChat.getUsername() + " joined the chat");
     }
     public synchronized void broadcastMessage(String message) throws RemoteException {
-        Iterator<ClientChatInterface> iterator = chatClients.iterator();
-
-        while (iterator.hasNext()) {
-            ClientChatInterface c = iterator.next();
+        for(ClientChatInterface c : chatClients) {
             c.send(message);
         }
     }
     public synchronized void sendPrivateMessage(String senderName, String recipientName, String message) throws RemoteException {
         Iterator<ClientChatInterface> iterator = chatClients.iterator();
 
-        while (iterator.hasNext()) {
-            ClientChatInterface c = iterator.next();
-            if(c.getUsername().contains(recipientName)) c.send("[PRIVATE] " + senderName + ": " + message);
+        for(ClientChatInterface c : chatClients) {
+            if(c.getUsername().equals(recipientName)) c.send("[PRIVATE] " + senderName + ": " + message);
         }
     }
 }
