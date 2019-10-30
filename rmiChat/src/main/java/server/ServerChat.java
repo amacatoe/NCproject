@@ -4,9 +4,9 @@ import client.ClientChatInterface;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ServerChat extends UnicastRemoteObject implements ServerChatInterface, Serializable {
     private static final long serialVersionUID;
@@ -16,20 +16,26 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
     }
 
     protected ServerChat() throws RemoteException {
-        chatClients = new ArrayList<>();
+        chatClients = new CopyOnWriteArrayList<>();
     }
     public synchronized void register(ClientChatInterface clientChat) throws RemoteException {
-        this.chatClients.add(clientChat);
+        chatClients.add(clientChat);
         System.out.println(clientChat.getUsername() + " joined the chat");
         broadcastMessage(clientChat.getUsername() + " joined the chat");
     }
     public synchronized void broadcastMessage(String message) throws RemoteException {
-        for(ClientChatInterface c : chatClients) {
+        Iterator<ClientChatInterface> iterator = chatClients.iterator();
+
+        while (iterator.hasNext()) {
+            ClientChatInterface c = iterator.next();
             c.send(message);
         }
     }
     public synchronized void sendPrivateMessage(String senderName, String recipientName, String message) throws RemoteException {
-        for(ClientChatInterface c : chatClients){
+        Iterator<ClientChatInterface> iterator = chatClients.iterator();
+
+        while (iterator.hasNext()) {
+            ClientChatInterface c = iterator.next();
             if(c.getUsername().contains(recipientName)) c.send("[PRIVATE] " + senderName + ": " + message);
         }
     }

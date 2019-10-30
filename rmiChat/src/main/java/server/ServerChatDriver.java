@@ -6,7 +6,7 @@ import java.rmi.registry.Registry;
 
 //create the server
 public class ServerChatDriver {
-    // TODO: 28.10.2019 - check rmi arrays
+    // TODO: 30.10.2019 - check concurrent collection
 
     public static final String UNIQUE_BINDING_NAME = "server.chat_rmi";
 
