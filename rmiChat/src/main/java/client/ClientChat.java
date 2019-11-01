@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
@@ -57,7 +58,7 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
             serverChatInterface.register(this);
             serverChatInterface.sendPrivateMessage("Server", getUsername(), "You can send private message, please enter the phrase 'private'");
         } catch (Exception e) {
-            System.out.println("Error on the client app: " + e.toString());
+            serverChatInterface.customLogException(e);
         }
     }
 }

@@ -40,4 +40,9 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
             if (c.getUsername().equals(recipientName)) c.send("[PRIVATE] " + senderName + ": " + message);
         }
     }
+
+    public synchronized void customLogException(Exception e) throws RemoteException {
+        System.out.println("Problem in client app: ");
+        e.printStackTrace();
+    }
 }

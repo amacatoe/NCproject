@@ -8,7 +8,7 @@ import java.rmi.registry.Registry;
 
 //create the server
 public class ServerChatDriver {
-    // TODO: 30.10.2019 - fix some moments in programm
+    // TODO: 31.10.2019 - ?
 
     public static void main(String[] args) throws RemoteException {
         final ServerChat server = new ServerChat();
@@ -18,7 +18,7 @@ public class ServerChatDriver {
             System.out.println("Server " + UtilityClass.UNIQUE_BINDING_NAME + " was started...");
 
         } catch (Exception e) {
-            System.out.println ("Error on the server: " + e.getMessage());
+            e.printStackTrace();
             System.exit (1);
         }
     }
