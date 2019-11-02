@@ -47,8 +47,11 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         serverChatInterface.sendPrivateMessage(this.username, username, message);
     }
 
-    public void sendMessageToServer(String message) throws RemoteException {
-        serverChatInterface.broadcastMessage(message);
+    public void sendPublicMessageToServer() throws RemoteException {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter message: ");
+        String message = sc.nextLine().trim();
+        serverChatInterface.broadcastMessage(getUsername() + ": " + message);
     }
 
     public void registrationOnServer() throws RemoteException {
@@ -57,8 +60,16 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
             serverChatInterface = (ServerChatInterface) registry.lookup(UtilityClass.UNIQUE_BINDING_NAME);
             serverChatInterface.register(this);
             serverChatInterface.sendPrivateMessage("Server", getUsername(), "You can send private message, please enter the phrase 'private'");
+            serverChatInterface.sendPrivateMessage("Server", getUsername(), "You can send public message, please enter the phrase 'public'");
+            serverChatInterface.sendPrivateMessage("Server", getUsername(), "You can exit from the chat, please enter the phrase 'exit'");
         } catch (Exception e) {
             serverChatInterface.customLogException(e);
         }
+    }
+
+    @Override
+    public void exit() throws RemoteException {
+        serverChatInterface.deleteClientChat(this);
+        System.exit(1);
     }
 }

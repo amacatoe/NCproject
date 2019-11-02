@@ -11,16 +11,15 @@ public class ClientChatDriver {
         String username = scanner.nextLine().trim();
         final ClientChatInterface client = new ClientChat(username);
 
-        String message = "";
+        String command = "";
         while (true) {
-            message = scanner.nextLine().trim();
+            command = scanner.nextLine().trim();
 
             //catch private message in console
-            if (message.equalsIgnoreCase("private")) {
-                client.sendPrivateMessageToServer();
-                continue;
-            }
-            client.sendMessageToServer(client.getUsername() + ": " + message);
+            if (command.equalsIgnoreCase("private")) client.sendPrivateMessageToServer();
+            if (command.equalsIgnoreCase("public")) client.sendPublicMessageToServer();
+            if (command.equalsIgnoreCase("exit")) client.exit();
+
         }
 
     }

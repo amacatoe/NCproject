@@ -45,4 +45,11 @@ public class ServerChat extends UnicastRemoteObject implements ServerChatInterfa
         System.out.println("Problem in client app: ");
         e.printStackTrace();
     }
+
+    @Override
+    public void deleteClientChat(ClientChatInterface clientChat) throws RemoteException {
+        System.out.println(clientChat.getUsername() + " exit from the chat...");
+        broadcastMessage(clientChat.getUsername() + " exit from the chat...");
+        chatClients.remove(clientChat);
+    }
 }
