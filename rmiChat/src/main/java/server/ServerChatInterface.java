@@ -1,7 +1,6 @@
 package server;
 
 import client.ClientChatInterface;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -11,4 +10,5 @@ public interface ServerChatInterface extends Remote {
     void sendPrivateMessage(String senderName, String recipientName, String message) throws RemoteException;
     void customLogException(Exception e) throws RemoteException;
     void deleteClientChat(ClientChatInterface clientChat) throws RemoteException;
+    boolean checkUsername(String username) throws RemoteException;
 }

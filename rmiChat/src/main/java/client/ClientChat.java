@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
@@ -25,15 +24,15 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         registrationOnServer();
     }
 
-    private void setUsername(String username) throws RemoteException {
-        this.username = !username.equals("") ? username : "Visitor";
+    private void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public synchronized void send(String message) throws RemoteException {
+    public void send(String message) {
         System.out.println(message);
     }
 
@@ -67,9 +66,13 @@ public class ClientChat extends UnicastRemoteObject implements ClientChatInterfa
         }
     }
 
-    @Override
     public void exit() throws RemoteException {
         serverChatInterface.deleteClientChat(this);
         System.exit(1);
+    }
+
+    @Override
+    public String toString() {
+        return "Chat user {" + "username: " + username + '}';
     }
 }
